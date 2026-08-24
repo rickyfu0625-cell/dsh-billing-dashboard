@@ -16,7 +16,8 @@ DeepSeek Harness（DSH）**永久**用量看板插件：右下角常驻悬浮胶
 ## 数据口径
 
 - **余额**：官方实时，需要已配置 `DEEPSEEK_API_KEY`（「设置 → 模型」中填写即可，插件自动读取，密钥不出 Host）。
-- **消费 / token**：回放 `$DSH_HOME` 下的持久化会话日志，聚合所有 `assistant/message` 事件的 token，再用官方价格引擎折算成人民币/美元。属于**估算**口径，最终以 DeepSeek 平台账单为准。
+- **今日消费 / 趋势（官方优先）**：若配置了 `DEEPSEEK_PLATFORM_TOKEN`（`platform.deepseek.com` 登录后浏览器 localStorage 里的 `userToken`），则调官方用量接口拿「今日消费 + 本月逐日消费」，面板标「官方」；未配置 / 过期 / 失败则自动回退到本地估算并标「估算」。
+- **消费 / token（估算兜底）**：回放 `$DSH_HOME` 下的持久化会话日志，聚合所有 `assistant/message` 事件的 token，再用官方价格引擎折算成人民币/美元。属于**估算**口径，最终以 DeepSeek 平台账单为准。
 - **官方价格自动同步**：每天首次请求时抓取官方定价页（EN `$` / ZH `元`），解析当前各模型的峰谷输入/缓存命中/输出单价；若与当前生效价不一致，则追加一条同步政策并持久化到 `$DSH_HOME/storages/dsh-billing-dashboard-pricing.json`，之后的消息按新价折算（历史消息仍按当时价回放）。抓取/解析失败则回退内置价格快照。
 
 ## 适用范围与限制
