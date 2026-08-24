@@ -18,11 +18,21 @@ DeepSeek Harness（DSH）**永久**用量看板插件：右下角常驻悬浮胶
 
 ## 安装（永久）
 
+**方式一：从 GitHub 安装（推荐，日常使用）**
+
+```bash
+dsh plugin --profile web add github:rickyfu0625-cell/dsh-billing-dashboard
+```
+
+**方式二：本地目录安装（开发 / 改代码，软链实时指向源码）**
+
 ```bash
 dsh plugin --profile web add link:/path/to/dsh-billing-dashboard
 ```
 
-安装后刷新浏览器页面即可看到右下角悬浮胶囊。插件源码保留在原目录，卸载用 `dsh plugin --profile web remove dsh-billing-dashboard`。
+安装后需**重启 `dsh web` 进程并刷新浏览器页面**（新 bundle 在启动时组合），随后右下角即可看到悬浮胶囊。
+
+> 卸载：`dsh plugin --profile web remove dsh-billing-dashboard`
 
 ## 结构
 
