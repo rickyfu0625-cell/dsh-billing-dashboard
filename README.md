@@ -4,13 +4,13 @@ DeepSeek Harness（DSH）**永久**用量看板插件：右下角常驻悬浮胶
 
 ## 功能
 
-- **账户余额**：DeepSeek 官方 `/user/balance` 实时数据（可用 / 充值 / 赠送拆分），低余额标红
+- **账户余额**：DeepSeek 官方 `/user/balance` 实时数据（总余额 / 充值 / 赠送拆分），低余额标红
 - **今日消费**：官方优先（配了 `DEEPSEEK_PLATFORM_TOKEN` 时显示官方数据，否则本地估算，面板标「官方 / 估算」）
 - **今日 token**：输入 / 输出 / 缓存命中 / 缓存写入 / 推理拆分
 - **近 7 日消费趋势图**：逐日消费折线 + 数据标签
 - **一键充值**：直达 DeepSeek 官方充值页 `platform.deepseek.com/top_up`，另有「用量明细」入口
 - **可拖拽悬浮胶囊**：收起时两行显示「今日消费 / 当前余额」+ 刷新按钮，可随意拖动（位置持久化、窗口缩放自动回视口）；展开时点击面板外可收起
-- **中英双语**：始终跟随 DeepSeek Harness 的语言；面板内切换按钮直接切换 harness 语言
+- **中英双语**：始终跟随 DeepSeek Harness 的语言
 - 仅使用 `--dsw-*` 主题变量（跟随亮/暗色）
 
 ## 数据口径
@@ -28,11 +28,11 @@ DeepSeek Harness（DSH）**永久**用量看板插件：右下角常驻悬浮胶
 | --- | --- | --- |
 | 运行环境 | DeepSeek Harness（DSH） | 它是 `dsh.bundle`，依赖 DSH 的 `webServer` / `sessionPersistence` / `credentials` / `slots` / `locale` 服务，不能在其他 Harness（如 Claude Code、Codex）里运行 |
 | 账户余额 | DeepSeek 官方 `/user/balance` | 只能读 DeepSeek 官方账户（`api.deepseek.com`，`DEEPSEEK_BASE_URL` 可覆盖），需要 `DEEPSEEK_API_KEY`；其他 provider（OpenAI / Anthropic 等）无法读取余额 |
-| 消费估算 | DeepSeek 官方价格表 | 只内置了 DeepSeek 官方模型价（deepseek-chat / reasoner / v4-flash / v4-pro）；**非 DeepSeek 模型暂不支持计费统计，不计入消费** |
+| 消费估算 | DeepSeek 官方价格表 | 只内置了 DeepSeek 官方模型价（deepseek-chat / reasoner / v4-flash / v4-pro）；**非 DeepSeek 模型暂不支持消费统计，不计入消费** |
 | 官方价格同步 | DeepSeek 官方定价页 | 只抓取 `api-docs.deepseek.com` 的定价页 |
 | 一键充值 | DeepSeek 官方平台 | 跳转 `platform.deepseek.com/top_up` |
 
-- **token / 消费**只统计 DeepSeek 官方模型；如果你通过 DSH 的多 provider（如 `llm-pi-ai`）接入了非 DeepSeek 模型，插件会检测并在面板提示「暂不支持该模型计费统计」，且不将其计入消费。
+- **token / 消费**只统计 DeepSeek 官方模型；如果你通过 DSH 的多 provider（如 `llm-pi-ai`）接入了非 DeepSeek 模型，插件会检测并在面板提示「暂不支持该模型的消费统计」，且不将其计入消费。
 
 ## 安装（永久）
 
