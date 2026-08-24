@@ -21,7 +21,8 @@
     "client": {
       "platform": "web",
       "inject": [
-        "slots"
+        "slots",
+        "locale"
       ]
     }
   },

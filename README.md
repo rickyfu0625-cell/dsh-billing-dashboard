@@ -9,12 +9,15 @@ DeepSeek Harness（DSH）**永久**用量看板插件：右下角常驻悬浮胶
 - **今日 token**：输入 / 输出 / 缓存命中 / 缓存写入 / 推理拆分
 - **近 7 日消费趋势图**：逐日消费折线 + 数据标签
 - **一键充值**：直达 DeepSeek 官方充值页 `platform.deepseek.com/top_up`，另有「用量明细」入口
-- 全中文界面，仅使用 `--dsw-*` 主题变量（跟随亮/暗色）
+- **可拖拽悬浮胶囊**：收起时只显示余额 + 刷新按钮，可在页面内随意拖动（位置持久化）；刷新按钮强制拉最新数据
+- **中英双语**：默认跟随 DeepSeek Harness 的语言，面板内可手动切换并持久化
+- 仅使用 `--dsw-*` 主题变量（跟随亮/暗色）
 
 ## 数据口径
 
 - **余额**：官方实时，需要已配置 `DEEPSEEK_API_KEY`（「设置 → 模型」中填写即可，插件自动读取，密钥不出 Host）。
 - **消费 / token**：回放 `$DSH_HOME` 下的持久化会话日志，聚合所有 `assistant/message` 事件的 token，再用官方价格引擎折算成人民币/美元。属于**估算**口径，最终以 DeepSeek 平台账单为准。
+- **官方价格自动同步**：每天首次请求时抓取官方定价页（EN `$` / ZH `元`），解析当前各模型的峰谷输入/缓存命中/输出单价；若与当前生效价不一致，则追加一条同步政策并持久化到 `$DSH_HOME/storages/dsh-billing-dashboard-pricing.json`，之后的消息按新价折算（历史消息仍按当时价回放）。抓取/解析失败则回退内置价格快照。
 
 ## 安装（永久）
 
@@ -40,5 +43,5 @@ dsh plugin --profile web add link:/path/to/dsh-billing-dashboard
 | --- | --- |
 | `package.json` | `dsh.bundle.patch`（Host 半）+ `dsh.client`（浏览器半）声明 |
 | `cordis.patch.yml` | bundle 补丁层，插入 `billing-dashboard` 行 |
-| `lib/index.js` | Host 半：余额路由 + 本地 token 聚合 + 官方价格计费 |
-| `lib/client.js` | 浏览器半：悬浮看板 + 趋势图 + 充值入口 |
+| `lib/index.js` | Host 半：余额路由 + 本地 token 聚合 + 官方价格计费 + 官方价格日同步 |
+| `lib/client.js` | 浏览器半：可拖拽悬浮看板 + 趋势图 + 充值入口 + 中英切换 |
