@@ -1,0 +1,7 @@
+# dsh-billing-dashboard 的 bundle patch。
+# 通过 `dsh plugin --profile web add <本包>` 安装后，loader 启动 Host 半
+# （包默认导出），web client 注册表扫描 `dsh.client` 声明后提供
+# /plugins/dsh-billing-dashboard/client.js 给浏览器加载 Client 半。
+- insert:
+    - id: billing-dashboard
+      name: dsh-billing-dashboard
