@@ -19,6 +19,21 @@ DeepSeek Harness（DSH）**永久**用量看板插件：右下角常驻悬浮胶
 - **消费 / token**：回放 `$DSH_HOME` 下的持久化会话日志，聚合所有 `assistant/message` 事件的 token，再用官方价格引擎折算成人民币/美元。属于**估算**口径，最终以 DeepSeek 平台账单为准。
 - **官方价格自动同步**：每天首次请求时抓取官方定价页（EN `$` / ZH `元`），解析当前各模型的峰谷输入/缓存命中/输出单价；若与当前生效价不一致，则追加一条同步政策并持久化到 `$DSH_HOME/storages/dsh-billing-dashboard-pricing.json`，之后的消息按新价折算（历史消息仍按当时价回放）。抓取/解析失败则回退内置价格快照。
 
+## 适用范围与限制
+
+本插件**只适配「DeepSeek Harness（DSH）+ DeepSeek 官方 API」这一种组合**，不通用：
+
+| 能力 | 依赖 | 说明 |
+| --- | --- | --- |
+| 运行环境 | DeepSeek Harness（DSH） | 它是 `dsh.bundle`，依赖 DSH 的 `webServer` / `sessionPersistence` / `credentials` / `slots` / `locale` 服务，不能在其他 Harness（如 Claude Code、Codex）里运行 |
+| 账户余额 | DeepSeek 官方 `/user/balance` | 只能读 DeepSeek 官方账户（`api.deepseek.com`，`DEEPSEEK_BASE_URL` 可覆盖），需要 `DEEPSEEK_API_KEY`；其他 provider（OpenAI / Anthropic 等）无法读取余额 |
+| 消费估算 | DeepSeek 官方价格表 | 只内置了 DeepSeek 官方模型价（deepseek-chat / reasoner / v4-flash / v4-pro）；**非 DeepSeek 模型会落到 `*` 兜底价，消费估算不准** |
+| 官方价格同步 | DeepSeek 官方定价页 | 只抓取 `api-docs.deepseek.com` 的定价页 |
+| 一键充值 | DeepSeek 官方平台 | 跳转 `platform.deepseek.com/top_up` |
+
+- **token 计数**本身读本地会话日志、对任何模型都成立；但**「消费」折算只对 DeepSeek 官方模型准确**。
+- 如果你通过 DSH 的多 provider（如 `llm-pi-ai`）接入了非 DeepSeek 模型，余额/充值/价格同步不可用，消费也会按 DeepSeek 兜底价误算。
+
 ## 安装（永久）
 
 **方式一：从 GitHub 安装（推荐，日常使用）**
