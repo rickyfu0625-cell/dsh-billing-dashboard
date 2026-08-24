@@ -22,8 +22,7 @@
       "platform": "web",
       "inject": [
         "slots",
-        "locale",
-        "sessions"
+        "locale"
       ]
     }
   },
