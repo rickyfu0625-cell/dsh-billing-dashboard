@@ -6,6 +6,8 @@ DeepSeek Harness（DSH）**永久**用量看板插件：右下角常驻悬浮胶
 
 - **账户余额**：DeepSeek 官方 `/user/balance` 实时数据（总余额 / 充值 / 赠送拆分），低余额标红
 - **今日消费**：官方优先（配了 `DEEPSEEK_PLATFORM_TOKEN` 时显示官方数据，否则本地估算，面板标「官方 / 估算」）
+- **数据来源切换**：面板内「数据来源」开关可在「官方 / 估算」间一键切换并持久化
+- **官方 token 自检与更新**：每天首次打开时自检一次官方 token，失效时「官方」标签标红为「官方token已失效」；面板内「更新官方 token」按钮可直接粘贴新 token 完成替换（先校验再落库）
 - **今日 token**：输入 / 输出 / 缓存命中 / 缓存写入 / 推理拆分
 - **近 7 日消费趋势图**：逐日消费折线 + 数据标签
 - **一键充值**：直达 DeepSeek 官方充值页 `platform.deepseek.com/top_up`，另有「用量明细」入口
@@ -16,7 +18,8 @@ DeepSeek Harness（DSH）**永久**用量看板插件：右下角常驻悬浮胶
 ## 数据口径
 
 - **余额**：官方实时，需要已配置 `DEEPSEEK_API_KEY`（「设置 → 模型」中填写即可，插件自动读取，密钥不出 Host）。
-- **今日消费 / 趋势（官方优先）**：若配置了 `DEEPSEEK_PLATFORM_TOKEN`（登录 `platform.deepseek.com` 后，DevTools → Console 执行 `JSON.parse(localStorage.getItem('userToken')).value` 得到），则调官方用量接口拿「今日消费 + 本月逐日消费」，面板标「官方」；未配置 / 过期 / 失败则自动回退到本地估算并标「估算」。
+- **今日消费 / 趋势（官方优先）**：若配置了 `DEEPSEEK_PLATFORM_TOKEN`（登录 `platform.deepseek.com` 后，DevTools → Console 执行 `JSON.parse(localStorage.getItem('userToken')).value` 得到），则调官方用量接口拿「今日消费 + 本月逐日消费」，面板标「官方」；未配置 / 过期 / 失败则自动回退到本地估算并标「估算」。也可在面板「数据来源」里手动固定为官方或估算。
+- **官方 token 自检（每天首次）**：每天首次打开时强制走一次官方用量接口校验 token；token 失效（HTTP 401/403 或平台 code 40002/40003）时，「官方」标签标红为「官方token已失效」。更新 token 通过面板「更新官方 token」完成，插件会先校验新 token 有效再写入 `$DSH_HOME/.credentials.yaml` 的 `DEEPSEEK_PLATFORM_TOKEN` 引用。
 - **消费 / token（估算兜底）**：回放 `$DSH_HOME` 下的持久化会话日志，聚合所有 `assistant/message` 事件的 token，再用官方价格引擎折算成人民币/美元。属于**估算**口径，最终以 DeepSeek 平台账单为准。
 - **官方价格自动同步**：每天首次请求时抓取官方定价页（EN `$` / ZH `元`），解析当前各模型的峰谷输入/缓存命中/输出单价；若与当前生效价不一致，则追加一条同步政策并持久化到 `$DSH_HOME/storages/dsh-billing-dashboard-pricing.json`，之后的消息按新价折算（历史消息仍按当时价回放）。抓取/解析失败则回退内置价格快照。
 
