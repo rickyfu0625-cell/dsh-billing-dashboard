@@ -32,10 +32,11 @@ DeepSeek Harness（DSH）**永久**用量看板插件：右下角常驻悬浮胶
 | 运行环境 | DeepSeek Harness（DSH） | 它是 `dsh.bundle`，依赖 DSH 的 `webServer` / `sessionPersistence` / `credentials` / `slots` / `locale` 服务，不能在其他 Harness（如 Claude Code、Codex）里运行 |
 | 账户余额 | DeepSeek 官方 `/user/balance` | 只能读 DeepSeek 官方账户（`api.deepseek.com`，`DEEPSEEK_BASE_URL` 可覆盖），需要 `DEEPSEEK_API_KEY`；其他 provider（OpenAI / Anthropic 等）无法读取余额 |
 | 消费估算 | DeepSeek 官方价格表 | 只内置了 DeepSeek 官方模型价（deepseek-chat / reasoner / v4-flash / v4-pro）；**非 DeepSeek 模型暂不支持消费统计，不计入消费** |
+| 官方模型识别 | provider + 模型名 | provider 为 `deepseek-official`，或模型 id 以 `deepseek-` 开头（如 DSH 默认目录里的 `deepseek-flash`），或已在价格表中点名的模型，都视为官方 |
 | 官方价格同步 | DeepSeek 官方定价页 | 只抓取 `api-docs.deepseek.com` 的定价页 |
 | 一键充值 | DeepSeek 官方平台 | 跳转 `platform.deepseek.com/top_up` |
 
-- **token / 消费**只统计 DeepSeek 官方模型；如果你通过 DSH 的多 provider（如 `llm-pi-ai`）接入了非 DeepSeek 模型，插件会检测并在面板提示「暂不支持该模型的消费统计」，且不将其计入消费。
+- **token / 消费**只统计 DeepSeek 官方模型；如果你通过 DSH 的多 provider（如 `llm-pi-ai`）接入了非 DeepSeek 模型，插件会检测并在面板提示「暂不支持该模型的消费统计」，且不将其计入消费。官方模型按 provider（`deepseek-official`）与 `deepseek-` 前缀识别，因此像 `deepseek-flash` 这类未出现在定价页的官方模型不会被误报。
 
 ## 安装（永久）
 
